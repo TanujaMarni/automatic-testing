@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'    // Name defined in Jenkins -> Global Tool Configuration
-        jdk 'Java11'      // Name defined in Jenkins -> Global Tool Configuration
+        maven 'Maven3'     // Name should match Global Tool Config
+        jdk 'Java11'       // Name should match Global Tool Config
     }
 
     environment {
@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git'
+                git 'https://github.com/TanujaMarni/automatic-testing.git'
             }
         }
 
@@ -38,23 +38,18 @@ pipeline {
         }
 
         stage('Publish Test Report') {
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+            steps {
+                junit 'target/surefire-reports/*.xml'
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline finished.'
-        }
         success {
-            echo 'Tests passed successfully!'
+            echo '✅ Build and tests passed successfully.'
         }
         failure {
-            echo 'Some tests failed.'
+            echo '❌ Build or tests failed.'
         }
     }
 }
