@@ -1,10 +1,10 @@
 pipeline {
     agent any
-    tools {
-    maven 'Maven3'
-    jdk 'Java11'
-}
 
+    tools {
+        maven 'Maven3'     // Name should match Global Tool Config
+        jdk 'Java11'       // Name should match Global Tool Config
+    }
 
     environment {
         CHROME_BIN = '/usr/bin/google-chrome'
@@ -36,17 +36,20 @@ pipeline {
                 sh 'mvn clean test'
             }
         }
+
+        stage('Publish Test Report') {
+            steps {
+                junit 'target/surefire-reports/*.xml'
+            }
+        }
     }
 
     post {
-        always {
-            junit 'target/surefire-reports/*.xml'
-        }
         success {
-            echo 'Tests passed!'
+            echo '✅ Build and tests passed successfully.'
         }
         failure {
-            echo 'Some tests failed.'
+            echo '❌ Build or tests failed.'
         }
     }
 }
