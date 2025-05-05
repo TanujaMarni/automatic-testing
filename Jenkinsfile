@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/TanujaMarni/automatic-testing.git'
+                git 'https://github.com/TanujaMarni/automatic-testing/tree/main/Selenium-Automatic-Testing-main'
             }
         }
 
